@@ -10,7 +10,7 @@ Parse, validate and inspect `data:` URLs with typed diagnostics.
 to explain why a data URL is valid or invalid. It returns MIME information, parameters, byte length,
 decoded bytes, decoded text when possible, and diagnostics that are easy to show in a UI.
 
-Links: [demo](https://packages.wasta-wocket.fr/data-url-kit/) · [npm](https://www.npmjs.com/package/data-url-kit) · [GitHub](https://github.com/Recoveredd/data-url-kit)
+Links: [Demo](https://packages.wasta-wocket.fr/data-url-kit/) · [npm](https://www.npmjs.com/package/data-url-kit) · [GitHub](https://github.com/Recoveredd/data-url-kit)
 
 Use `data-urls` when you need a mature WHATWG-oriented parser for platform-level behavior. Use
 `data-url-kit` when you need a lightweight inspector, validator or playground with readable errors.
