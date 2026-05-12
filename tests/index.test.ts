@@ -1,5 +1,13 @@
 import { describe, expect, it } from 'vitest';
-import { DataUrlParseError, explainDataUrl, isDataUrl, parseDataUrl, parseDataUrlOrThrow } from '../src/index.js';
+import {
+  DataUrlParseError,
+  explainDataUrl,
+  getDataUrlMediaType,
+  isBase64DataUrl,
+  isDataUrl,
+  parseDataUrl,
+  parseDataUrlOrThrow
+} from '../src/index.js';
 
 describe('data-url-kit', () => {
   it('parses a minimal text data URL', () => {
@@ -124,6 +132,13 @@ describe('data-url-kit', () => {
     expect(isDataUrl('data:,ok')).toBe(true);
     expect(isDataUrl('nope')).toBe(false);
     expect(explainDataUrl('nope')).toContainEqual(expect.objectContaining({ code: 'MISSING_DATA_SCHEME' }));
+  });
+
+  it('offers quick metadata helpers', () => {
+    expect(getDataUrlMediaType('data:image/svg+xml,%3Csvg%2F%3E')).toBe('image/svg+xml');
+    expect(getDataUrlMediaType('nope')).toBeUndefined();
+    expect(isBase64DataUrl('data:text/plain;base64,SGVsbG8=')).toBe(true);
+    expect(isBase64DataUrl('data:text/plain,Hello')).toBe(false);
   });
 
   it('throws with parseDataUrlOrThrow', () => {

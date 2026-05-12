@@ -156,6 +156,28 @@ explainDataUrl("data:text/plain,Hello%XX");
 // [{ code: "INVALID_PERCENT_ENCODING", severity: "error", ... }]
 ```
 
+### `getDataUrlMediaType(input, options?)`
+
+Returns the parsed media type, or `undefined` when the input is invalid.
+
+```ts
+import { getDataUrlMediaType } from "data-url-kit";
+
+getDataUrlMediaType("data:image/svg+xml,%3Csvg%2F%3E");
+// "image/svg+xml"
+```
+
+### `isBase64DataUrl(input, options?)`
+
+Returns `true` only when the input is a valid data URL with a `;base64` flag.
+
+```ts
+import { isBase64DataUrl } from "data-url-kit";
+
+isBase64DataUrl("data:text/plain;base64,SGVsbG8=");
+// true
+```
+
 ### `parseDataUrlOrThrow(input, options?)`
 
 Returns the parsed value or throws `DataUrlParseError`.

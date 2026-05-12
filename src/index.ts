@@ -114,6 +114,18 @@ export function explainDataUrl(input: unknown, options?: DataUrlParseOptions): D
   return parseDataUrl(input, options).diagnostics;
 }
 
+export function getDataUrlMediaType(input: unknown, options?: DataUrlParseOptions): string | undefined {
+  const result = parseDataUrl(input, options);
+
+  return result.ok ? result.value.mediaType : undefined;
+}
+
+export function isBase64DataUrl(input: unknown, options?: DataUrlParseOptions): boolean {
+  const result = parseDataUrl(input, options);
+
+  return result.ok && result.value.isBase64;
+}
+
 export function parseDataUrlOrThrow(input: unknown, options?: DataUrlParseOptions): DataUrlInfo {
   const result = parseDataUrl(input, options);
 
