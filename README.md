@@ -64,6 +64,7 @@ The common alternatives are good at either validating or parsing:
 `data-url-kit` focuses on inspection:
 
 - typed diagnostics instead of only `true` / `false`;
+- warnings that can be displayed without rejecting the URL;
 - explicit byte length for preview limits;
 - decoded `Uint8Array` for browser and Node usage;
 - decoded text when bytes are valid UTF-8;
@@ -86,6 +87,9 @@ if (result.ok) {
   console.log(result.diagnostics);
 }
 ```
+
+`ok: true` means no blocking error was found. The `diagnostics` array can still contain warnings
+such as duplicated parameters or ignored empty metadata segments.
 
 Result shape:
 
@@ -171,6 +175,7 @@ Diagnostics are designed for UI display.
 | `NOT_A_STRING` | `error` | Runtime input was not a string. |
 | `MISSING_DATA_SCHEME` | `error` | Input does not start with `data:`. |
 | `MISSING_COMMA` | `error` | Metadata and data are not separated by a comma. |
+| `EMPTY_MEDIA_TYPE_SEGMENT` | `warning` | An empty metadata segment was ignored. |
 | `INVALID_MEDIA_TYPE` | `error` | MIME type is malformed. |
 | `INVALID_PARAMETER` | `error` | Media type parameter is malformed. |
 | `DUPLICATE_PARAMETER` | `warning` | A repeated parameter keeps the last value. |
