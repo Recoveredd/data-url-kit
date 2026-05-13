@@ -20,6 +20,7 @@ Use `data-urls` when you need a mature WHATWG-oriented parser for platform-level
 - TypeScript types are generated from the source.
 - ESM-only package with no runtime dependencies.
 - Marked as side-effect free for bundlers.
+- CI runs `npm ci`, `typecheck`, `build`, and `test`.
 - Tested on Node.js 20 and 22 with GitHub Actions.
 - Browser-friendly implementation with `Uint8Array` output.
 
