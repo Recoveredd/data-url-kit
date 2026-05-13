@@ -2,6 +2,16 @@
   "name": "data-url-kit",
   "version": "0.1.1",
   "description": "Parse, validate and inspect data URLs with typed diagnostics.",
+  "keywords": [
+    "data-url",
+    "data-uri",
+    "parser",
+    "validator",
+    "diagnostics",
+    "typescript",
+    "browser",
+    "developer-tools"
+  ],
   "type": "module",
   "sideEffects": false,
   "license": "MPL-2.0",
@@ -14,16 +24,6 @@
     "url": "https://github.com/Recoveredd/data-url-kit/issues"
   },
   "homepage": "https://github.com/Recoveredd/data-url-kit#readme",
-  "keywords": [
-    "data-url",
-    "data-uri",
-    "dataurl",
-    "datauri",
-    "parser",
-    "validator",
-    "diagnostics",
-    "typescript"
-  ],
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
