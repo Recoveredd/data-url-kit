@@ -128,6 +128,21 @@ describe('data-url-kit', () => {
     expect(result.diagnostics).toContainEqual(expect.objectContaining({ code: 'DATA_TOO_LARGE' }));
   });
 
+  it('reports invalid runtime options instead of using misleading limits', () => {
+    const result = parseDataUrl('data:,Hello', { maxBytes: -1 });
+
+    expect(result.ok).toBe(false);
+    expect(result.diagnostics).toContainEqual(expect.objectContaining({ code: 'INVALID_OPTIONS' }));
+    expect(result.diagnostics).not.toContainEqual(expect.objectContaining({ code: 'DATA_TOO_LARGE' }));
+
+    const whitespace = parseDataUrl('data:text/plain;base64,SGVs bG8=', {
+      allowBase64Whitespace: 'false' as never
+    });
+
+    expect(whitespace.ok).toBe(false);
+    expect(whitespace.diagnostics).toContainEqual(expect.objectContaining({ code: 'INVALID_OPTIONS' }));
+  });
+
   it('offers boolean and diagnostic helpers', () => {
     expect(isDataUrl('data:,ok')).toBe(true);
     expect(isDataUrl('nope')).toBe(false);

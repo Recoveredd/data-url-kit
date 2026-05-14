@@ -28,6 +28,7 @@ const TEXT_DECODER = typeof TextDecoder === 'undefined' ? undefined : new TextDe
 
 export function parseDataUrl(input: unknown, options: DataUrlParseOptions = {}): DataUrlResult {
   const diagnostics: DataUrlDiagnostic[] = [];
+  const resolvedOptions = normalizeOptions(options, diagnostics);
 
   if (typeof input !== 'string') {
     return fail(String(input), diagnostics, {
@@ -61,14 +62,14 @@ export function parseDataUrl(input: unknown, options: DataUrlParseOptions = {}):
   const rawData = input.slice(commaIndex + 1);
   const headerInfo = parseHeader(header, diagnostics);
   const dataInfo = headerInfo.isBase64
-    ? decodeBase64Data(rawData, diagnostics, commaIndex + 1, options)
+    ? decodeBase64Data(rawData, diagnostics, commaIndex + 1, resolvedOptions)
     : decodeUrlData(rawData, diagnostics, commaIndex + 1);
 
-  if (dataInfo.bytes && options.maxBytes !== undefined && dataInfo.bytes.byteLength > options.maxBytes) {
+  if (dataInfo.bytes && resolvedOptions.maxBytes !== undefined && dataInfo.bytes.byteLength > resolvedOptions.maxBytes) {
     diagnostics.push({
       code: 'DATA_TOO_LARGE',
       severity: 'error',
-      message: `Decoded data is ${dataInfo.bytes.byteLength} bytes, which exceeds the ${options.maxBytes} byte limit.`,
+      message: `Decoded data is ${dataInfo.bytes.byteLength} bytes, which exceeds the ${resolvedOptions.maxBytes} byte limit.`,
       index: commaIndex + 1
     });
   }
@@ -367,6 +368,39 @@ function decodeBase64Data(
     bytes,
     text: decodeText(bytes)
   };
+}
+
+function normalizeOptions(
+  options: DataUrlParseOptions,
+  diagnostics: DataUrlDiagnostic[]
+): DataUrlParseOptions {
+  const resolved: DataUrlParseOptions = {};
+
+  if (options.maxBytes !== undefined) {
+    if (Number.isInteger(options.maxBytes) && options.maxBytes >= 0) {
+      resolved.maxBytes = options.maxBytes;
+    } else {
+      diagnostics.push({
+        code: 'INVALID_OPTIONS',
+        severity: 'error',
+        message: 'maxBytes must be an integer greater than or equal to 0.'
+      });
+    }
+  }
+
+  if (options.allowBase64Whitespace !== undefined) {
+    if (typeof options.allowBase64Whitespace === 'boolean') {
+      resolved.allowBase64Whitespace = options.allowBase64Whitespace;
+    } else {
+      diagnostics.push({
+        code: 'INVALID_OPTIONS',
+        severity: 'error',
+        message: 'allowBase64Whitespace must be a boolean.'
+      });
+    }
+  }
+
+  return resolved;
 }
 
 function base64ToBytes(value: string): Uint8Array {

@@ -135,6 +135,8 @@ Options:
 | `maxBytes` | none | Reject decoded payloads larger than this byte limit. |
 | `allowBase64Whitespace` | `true` | Strip whitespace before base64 validation. |
 
+Invalid runtime options return an `INVALID_OPTIONS` diagnostic instead of applying a misleading limit or coercion.
+
 ### `isDataUrl(input, options?)`
 
 Returns a boolean.

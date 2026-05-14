@@ -11,6 +11,7 @@ export type DataUrlDiagnosticCode =
   | 'DUPLICATE_BASE64_FLAG'
   | 'INVALID_PERCENT_ENCODING'
   | 'INVALID_BASE64'
+  | 'INVALID_OPTIONS'
   | 'DATA_TOO_LARGE';
 
 export interface DataUrlDiagnostic {
